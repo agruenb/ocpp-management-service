@@ -24,7 +24,7 @@ export default async function ocppStationPostControl(req: Request, res: Response
     }
     let body:OcppStationPost = req.body;
     let station:StationTemplate = {
-        name: body.stationName,
+        stationName: body.stationName,
         ocppIdentity: body.ocppIdentity
     }
     try{

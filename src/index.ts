@@ -1,11 +1,14 @@
 import ApiRouter from "./ApiRouter";
 
-const express = require('express');
+import express from "express";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 const apiRouter = new ApiRouter();
 apiRouter.attachTo(app);
 
 const httpServer = app.listen(3002);
+console.log("Management API at port 3002");
