@@ -1,4 +1,4 @@
-import { Express, Response } from "express";
+import { Response } from "express";
 import { Request } from "express-serve-static-core";
 import Ajv from "ajv";
 import { FromSchema } from "json-schema-to-ts";
@@ -7,10 +7,10 @@ import { DbModelStations, StationTemplate } from "../db/src/DbModelStations";
 const OcppStationPostSchema = {
     type: "object",
     properties: {
-        stationName: { type: "string" },
+        name: { type: "string" },
         ocppIdentity: { type: "string" },
     },
-    required: ["stationName", "ocppIdentity"],
+    required: ["name", "ocppIdentity"],
     additionalProperties: false,
 } as const;
 
@@ -24,7 +24,7 @@ export default async function ocppStationPostControl(req: Request, res: Response
     }
     let body:OcppStationPost = req.body;
     let station:StationTemplate = {
-        stationName: body.stationName,
+        name: body.name,
         ocppIdentity: body.ocppIdentity
     }
     try{
