@@ -22,8 +22,8 @@ type OcppStationPost = FromSchema<typeof OcppStationGetSchema>;
 export default async function ocppStationGetControl(req: Request, res: Response){
     if(!validate(req.body)){
         res.status(400).end();
+        return;
     }
-    let body:OcppStationPost = req.body;
     try{
         let response = await DbModelStations.readAll();
         res.end(JSON.stringify(response));

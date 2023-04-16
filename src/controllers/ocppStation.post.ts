@@ -21,6 +21,7 @@ type OcppStationPost = FromSchema<typeof OcppStationPostSchema>;
 export default async function ocppStationPostControl(req: Request, res: Response){
     if(!validate(req.body)){
         res.status(400).end();
+        return;
     }
     let body:OcppStationPost = req.body;
     let station:StationTemplate = {
