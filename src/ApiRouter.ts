@@ -3,9 +3,13 @@ import { Request } from "express-serve-static-core";
 import ocppStationPostControl from "./controllers/ocppStation.post";
 import ocppStationGetControl from "./controllers/ocppStation.get";
 import ocppStationDeleteControl from "./controllers/ocppStation.delete";
+import ocppClientGetControl from "./controllers/ocppClient.get";
 
 export default class ApiRouter {
     attachTo(app: Express) {
+        app.get("/ocppClient", async (req: Request, res: Response) => {
+            ocppClientGetControl(req, res);
+        });
         app.get("/ocppStation", async (req: Request, res: Response) => {
             ocppStationGetControl(req, res);
         });

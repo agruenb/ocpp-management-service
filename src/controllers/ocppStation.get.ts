@@ -17,7 +17,7 @@ const OcppStationGetSchema = {
 
 const validate = (new Ajv()).compile(OcppStationGetSchema);
 
-type OcppStationPost = FromSchema<typeof OcppStationGetSchema>;
+type OcppStationGet = FromSchema<typeof OcppStationGetSchema>;
 
 export default async function ocppStationGetControl(req: Request, res: Response){
     if(!validate(req.body)){
