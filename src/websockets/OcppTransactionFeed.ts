@@ -18,18 +18,26 @@ export default class OcppTransactionFeed extends EventEmitter {
     attachTo(socket: ws.WebSocket) {
         this._startTransactionSub.addListener(socket, (info:string) => {
             socket.send(
-                JSON.stringify({
-                    type: "startTransaction",
-                    info: JSON.parse(info)
-                })
+                JSON.stringify(
+                    JSON.parse(info).map( (el:any) => {
+                        return {
+                            info: el,
+                            type: "startTransaction",
+                        }
+                    })
+                )
             );
         });
         this._stopTransactionSub.addListener(socket, (info:string) => {
             socket.send(
-                JSON.stringify({
-                    type: "stopTransaction",
-                    info: JSON.parse(info)
-                })
+                JSON.stringify(
+                    JSON.parse(info).map( (el:any) => {
+                        return {
+                            info: el,
+                            type: "stopTransaction",
+                        }
+                    })
+                )
             );
         });
     }
