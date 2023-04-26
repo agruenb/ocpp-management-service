@@ -4,6 +4,7 @@ import ocppStationPostControl from "./controllers/ocppStation.post";
 import ocppStationGetControl from "./controllers/ocppStation.get";
 import ocppStationDeleteControl from "./controllers/ocppStation.delete";
 import ocppClientGetControl from "./controllers/ocppClient.get";
+import ocppTransactionGetControl from "./controllers/ocppTransaction.get";
 
 export default class ApiRouter {
     attachTo(app: Express) {
@@ -12,6 +13,9 @@ export default class ApiRouter {
         });
         app.get("/ocppStation", async (req: Request, res: Response) => {
             ocppStationGetControl(req, res);
+        });
+        app.get("/transaction", async (req: Request, res: Response) => {
+            ocppTransactionGetControl(req, res);
         });
         app.post("/ocppStation", async (req: Request, res: Response) => {
             ocppStationPostControl(req, res);
