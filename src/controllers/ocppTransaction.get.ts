@@ -2,8 +2,7 @@ import { Response } from "express";
 import { Request } from "express-serve-static-core";
 import Ajv from "ajv";
 import { FromSchema } from "json-schema-to-ts";
-import { DbModelStations } from "../db/src/DbModelStations";
-import { DbFullTransaction } from "../db/src/DbFullTransaction";
+import { DbModelTransaction } from "../db/src/DbModelTransactions";
 
 const OcppTransactionGetSchema = {
     type: "object",
@@ -26,7 +25,7 @@ export default async function ocppTransactionGetControl(req: Request, res: Respo
         return;
     }
     try{
-        let response = await DbFullTransaction.readAll();
+        let response = await DbModelTransaction.readAll();
         res.end(JSON.stringify(response));
     }catch(err:any){
         res.status(400).end(err.sqlMessage);
