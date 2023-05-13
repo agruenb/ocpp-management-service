@@ -12,7 +12,7 @@ export default class OcppClientFeed extends EventEmitter {
         this._sub.connect();
     }
     attachTo(socket:any){
-        this._sub.addListener(socket, (info:string) => {
+        this._sub.appendListener(socket, (info:string) => {
             socket.send(info);
         });
     }

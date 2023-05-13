@@ -7,6 +7,7 @@ export default class OcppTransactionFeed extends EventEmitter {
 
     _startTransactionSub;
     _stopTransactionSub;
+    _meterValuesTransactionSub;
 
     constructor() {
         super();
@@ -14,9 +15,11 @@ export default class OcppTransactionFeed extends EventEmitter {
         this._startTransactionSub.connect();
         this._stopTransactionSub = new RedisSubscribe(mainRedisClient, "Transaction:Stopped");
         this._stopTransactionSub.connect();
+        this._meterValuesTransactionSub = new RedisSubscribe(mainRedisClient, "Transaction:MeterValues");
+        this._meterValuesTransactionSub.connect();
     }
     attachTo(socket: ws.WebSocket) {
-        this._startTransactionSub.addListener(socket, (info:string) => {
+        this._startTransactionSub.appendListener(socket, (info:string) => {
             socket.send(
                 JSON.stringify(
                     JSON.parse(info).map( (el:any) => {
@@ -28,7 +31,19 @@ export default class OcppTransactionFeed extends EventEmitter {
                 )
             );
         });
-        this._stopTransactionSub.addListener(socket, (info:string) => {
+        this._meterValuesTransactionSub.appendListener(socket, (info:string) => {
+            socket.send(
+                JSON.stringify(
+                    JSON.parse(info).map( (el:any) => {
+                        return {
+                            info: el,
+                            type: "updateTransaction",
+                        }
+                    })
+                )
+            );
+        });
+        this._stopTransactionSub.appendListener(socket, (info:string) => {
             socket.send(
                 JSON.stringify(
                     JSON.parse(info).map( (el:any) => {
@@ -41,5 +56,4 @@ export default class OcppTransactionFeed extends EventEmitter {
             );
         });
     }
-
 }

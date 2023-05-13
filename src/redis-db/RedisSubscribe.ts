@@ -37,7 +37,7 @@ export default class RedisSubscribe{
             }
         }
     }
-    addListener(socket:ws.WebSocket, msgHandler:Function){
+    appendListener(socket:ws.WebSocket, msgHandler:Function){
         this._listenerSockets.push({
             socket: socket,
             listener: msgHandler
