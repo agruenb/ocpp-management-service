@@ -9,6 +9,9 @@ const OcppTransactionGetSchema = {
     properties: {
         transactionId:{
             type: "string"
+        },
+        unfinished:{
+            type: "string"
         }
     },
     required: [],
@@ -20,11 +23,17 @@ const validate = (new Ajv()).compile(OcppTransactionGetSchema);
 type OcppTransactionGet = FromSchema<typeof OcppTransactionGetSchema>;
 
 export default async function ocppTransactionGetControl(req: Request, res: Response){
-    if(!validate(req.body)){
+    if(!validate(req.query)){
+        console.log(req.query);
         res.status(400).end();
         return;
     }
     try{
+        if(req.query.unfinished){
+            let response = await DbModelTransaction.readUnfinished();
+            res.end(JSON.stringify(response));
+            return;
+        }
         let response = await DbModelTransaction.readAll();
         res.end(JSON.stringify(response));
     }catch(err:any){

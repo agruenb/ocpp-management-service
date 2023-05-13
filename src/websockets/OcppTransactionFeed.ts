@@ -37,7 +37,7 @@ export default class OcppTransactionFeed extends EventEmitter {
                     JSON.parse(info).map( (el:any) => {
                         return {
                             info: el,
-                            type: "updateTransaction",
+                            type: "meterValuesTransaction",
                         }
                     })
                 )
